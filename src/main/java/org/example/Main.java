@@ -1,28 +1,18 @@
 package org.example;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/tiendecita";
-        String user = "root";
-        String password = "admin";
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM products")
-             ) {
-            while (resultSet.next()) {
-                System.out.print(resultSet.getInt("id"));
-                System.out.print("|");
-                System.out.print(resultSet.getString("nombre"));
-                System.out.print("|");
-                System.out.print(resultSet.getDouble("precio"));
-                System.out.print("|");
-                System.out.print(resultSet.getDate("fecha_registro"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    private static String url="jdbc:mysql://localhost:3306/tiendecita";
+    private static String user="root";
+    private static String password="andreS0503";
+    private static Connection connection;
+    public static Connection getInstance() throws SQLException {
+        if (connection == null) {
+            connection = DriverManager.getConnection(url,user,password);
         }
-
+        return connection;
     }
 }
